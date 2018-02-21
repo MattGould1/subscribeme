@@ -39,6 +39,18 @@ async function createServer (db) {
 
   if (NODE_ENV === 'development') app.use(logger())
 
+  app.use(async (ctx, next) => {
+    try {
+      await next()
+    } catch (err) {
+      console.error(err.message)
+      ctx.status = err.status || 500
+      ctx.type = 'application/json'
+      ctx.body = { success: false, message: err.message }
+      ctx.app.emit('error', err, ctx)
+    }
+  })
+
   app.use(bodyParser({
     enableTypes: ['json'],
     jsonLimit: '5mb',
