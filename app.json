@@ -1,6 +1,6 @@
 {
   "name": "subscribeme",
-  "description": "",
+  "description": "Monitors an API for new data and sends digest emails to subscribers.",
   "repository": "https://github.com/timwis/subscribeme",
   "formation": {
     "consumer": {
@@ -10,6 +10,14 @@
   "addons": [
     "heroku-postgresql:hobby-dev",
     "rabbitmq-bigwig:pipkin",
-    "mailgun:starter"
-  ]
+    "mailgun:starter",
+    "auth0:free",
+    "heroku-redis:hobby-dev"
+  ],
+  "env": {
+    "SESSION_KEY": {
+      "description": "A random, secret key for verifying the integrity of signed cookies",
+      "generator": "secret"
+    }
+  }
 }
